@@ -1,0 +1,712 @@
+// Variables
+$bg-color: #fff;
+$color-para: #000;
+$color-white: #fff;
+$color-primary: #1d78e5;
+$color-primary__light: #e3f0ff;
+$color-dark: #0d0543;
+
+// Installing local font
+
+// mixins
+
+@mixin clearfix {
+	&::after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+}
+
+@mixin center__both {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+// ======== mixins for flex row
+
+@mixin flex-row {
+	display: flex;
+	flex-direction: row;
+}
+
+@mixin flex-row_center {
+	@include flex-row;
+	justify-content: center;
+	align-items: center;
+}
+
+// ======== for flex column
+
+@mixin flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+@mixin flex-column_center {
+	@include flex-column;
+	justify-content: center;
+	align-items: center;
+}
+
+// MEDIA QUERY MANAGER
+/*
+
+0 - 350px;         Small Phone
+350 - 600px;       Phone
+600 - 900px;       Table potrait
+900 - 1200px;      Table landscape
+1200 - 1800px ( is where the normal style is applies )
+1200 - 1800+ px;   Big desktop
+
+$breakpoint arguement choices :
+
+- sm-phone
+- phone
+- tab-port
+- tab-land
+- big-desktop
+
+ ORDER: Base + Typography > genarel layout + grid > page layout > components
+
+*/
+
+@mixin respond($breakpoint) {
+	@if $breakpoint == sm-phone {
+		@media only screen and (max-width: 375px) {
+			@content;
+		} //  21.5em;
+	}
+
+	@if $breakpoint == phone {
+		@media only screen and (max-width: 600px) {
+			@content;
+		} // 37.5em;
+	}
+
+	@if $breakpoint == tab-port {
+		@media only screen and (max-width: 900px) {
+			@content;
+		} // 56.25em;
+	}
+
+	@if $breakpoint == tab-land {
+		@media only screen and (max-width: 1200px) {
+			@content;
+		} // 75em;
+	}
+
+	@if $breakpoint == big-desktop {
+		@media only screen and (min-width: 1800px) {
+			@content;
+		} // 112.5em;
+	}
+}
+
+// Base
+/* ============================================ */
+/* ================ universal selector adjustment ================ */
+/* ============================================ */
+
+*,
+*::after,
+*::before {
+	padding: 0;
+	margin: 0;
+	box-sizing: inherit;
+}
+
+/* ============================================ */
+/* ================ html font size adjustment ================ */
+/* ============================================ */
+
+html {
+	scroll-behavior: smooth;
+	// this defines what 1rem is
+	font-size: 10px;
+}
+
+/* ============================================ */
+/* ================ body customization ================ */
+/* ============================================ */
+
+body {
+	box-sizing: border-box;
+	background-color: $bg-color !important;
+	font-family: 'Metropolis', sans-serif !important;
+	color: $color-para;
+	width: 100%;
+
+	a {
+		text-decoration: none;
+	}
+
+	button,
+	button:focus {
+		outline: none;
+	}
+}
+
+/* ============================================ */
+/* ================ section padding ================ */
+/* ============================================ */
+
+section {
+	padding: 9rem 0;
+
+	@include respond(tab-land) {
+		padding: 6.5rem 0;
+	}
+
+	@include respond(tab-port) {
+		padding: 5.5rem 0;
+	}
+
+	@include respond(phone) {
+		padding: 5rem 12px;
+	}
+
+	p {
+		margin-bottom: 0;
+	}
+}
+
+/* ============================================ */
+/* ================ no gutters for row ================ */
+/* ============================================ */
+
+.row.no-gutters {
+	margin-right: 0;
+	margin-left: 0;
+}
+
+.row.no-gutters > [class^='col-'],
+.row.no-gutters > [class*=' col-'] {
+	padding-right: 0;
+	padding-left: 0;
+}
+
+/* ============================================ */
+/* ================ customize selection ================ */
+/* ============================================ */
+
+::selection {
+	background-color: #000;
+	color: $bg-color;
+}
+
+// Custom buttons
+.btn {
+	padding: 9px 20px !important;
+	border-radius: 8px !important;
+	color: $color-primary !important;
+	font-size: 1.8rem !important ;
+	font-weight: 600 !important;
+	outline: none !important;
+	box-shadow: none;
+	transition: all 0.3s;
+
+	@include respond(phone) {
+		padding: 6px 10px !important;
+		font-size: 1.4rem !important;
+	}
+
+	&-fill {
+		background: $color-primary__light !important;
+		border: none !important;
+		transition: all 0.3s;
+
+		&:hover {
+		}
+	}
+}
+
+// Custom Heading
+.heading {
+	&-box {
+		width: 100%;
+		@include flex-column_center;
+		margin-bottom: 5rem;
+
+		@include respond(phone) {
+			margin-bottom: 3rem;
+		}
+
+		&__intro {
+			font-size: 1.6rem;
+			color: $color-para;
+		}
+	}
+
+	&__top {
+		font-size: 4.2rem;
+		font-weight: 700;
+		background: #e3eefe;
+		width: fit-content;
+		margin: 4rem auto 0;
+
+		@include respond(phone) {
+			font-size: 3.2rem;
+		}
+	}
+
+	&__main {
+		font-size: 3.6rem;
+		color: $color-para;
+		font-weight: 700;
+		margin-top: 1.5rem;
+
+		@include respond(phone) {
+			font-size: 3.2rem;
+		}
+	}
+}
+
+// Custom paragraph
+.para {
+	font-size: 1.8rem !important;
+	color: $color-para;
+	line-height: 180%;
+
+	@include respond(phone) {
+		font-size: 1.6rem;
+	}
+}
+
+// Hiding image class
+
+.web-only {
+	@include respond(phone) {
+		display: none;
+	}
+}
+
+.mobile-only {
+	display: none;
+
+	@include respond(phone) {
+		display: block;
+	}
+}
+
+// Header sec {
+
+header {
+	width: 100%;
+	height: auto;
+}
+
+.shape {
+	&-top {
+		position: absolute;
+		top: 0;
+		left: 0;
+
+		@include respond(phone) {
+			width: auto;
+			height: 36rem;
+		}
+
+		img {
+			width: auto;
+			height: 100%;
+		}
+	}
+
+	&-btm {
+		position: absolute;
+		top: 60rem;
+		right: 0;
+		z-index: 1;
+
+		@include respond(phone) {
+			width: auto;
+			height: 36rem;
+		}
+
+		img {
+			width: auto;
+			height: 100%;
+		}
+	}
+}
+
+// Shorts sec
+
+.shorts {
+	width: 100%;
+	padding-top: 6rem;
+	position: relative;
+	z-index: 2;
+}
+
+// .btn__first-child {
+// 	border-radius: 2.4rem 2.4rem 0 0 !important;
+// }
+
+// .btn__last-child {
+// 	border-radius: 0 0 2.4rem 2.4rem !important;
+// }
+
+.accordion {
+	background-color: $color-white;
+	box-shadow: 0 14px 42px rgba($color: #000000, $alpha: 0.1);
+	border-radius: 24px;
+
+	@include respond(phone) {
+		border-radius: 12px;
+	}
+
+	.accordion-item {
+		border-bottom: 1px solid rgba($color: #000000, $alpha: 0.1);
+		button[aria-expanded='true'] {
+			border-bottom: 1px solid rgba($color: #000000, $alpha: 0.1);
+		}
+
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+
+	button {
+		position: relative;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		text-align: left;
+		width: 100%;
+		color: $color-para;
+		font-size: 2.6rem;
+		padding: 0 4rem;
+		font-weight: 600;
+		border: none;
+		background: none;
+		outline: none;
+		transition: all 0.3s;
+
+		@include respond(phone) {
+			font-size: 1.6rem;
+			padding: 0 2rem;
+		}
+
+		&:hover {
+			transform: scale(1.03);
+			border-radius: 2rem;
+			box-shadow: 0 14px 42px rgba($color: #000000, $alpha: 0.1);
+			background: $color-white;
+
+			@include respond(tab-land) {
+				border-radius: 1rem;
+				transform: scale(1);
+				box-shadow: none;
+			}
+		}
+
+		&:hover,
+		&:focus {
+			cursor: pointer;
+			color: #000;
+			&::after {
+				cursor: pointer;
+				color: #000;
+				border: 1px solid #000;
+			}
+		}
+
+		.accordion {
+			&-title {
+				padding: 1em 1.5em 1em 0;
+			}
+
+			&_img {
+				width: auto;
+				margin-right: 2.4rem;
+
+				@include respond(phone) {
+					margin-right: 1.4rem;
+				}
+
+				img {
+					width: auto;
+					height: 6.8rem;
+
+					@include respond(phone) {
+						height: 4rem;
+					}
+				}
+			}
+		}
+	}
+	button[aria-expanded='true'] {
+		color: #000;
+		.icon {
+			&::after {
+				width: 0;
+			}
+		}
+		+ .accordion-content {
+			opacity: 1;
+			max-height: 200rem;
+			transition: all 0.3s;
+			will-change: opacity, max-height;
+		}
+	}
+	.accordion-content {
+		opacity: 0;
+		max-height: 0;
+		overflow: hidden;
+		transition: all 0.3s;
+		will-change: opacity, max-height;
+		p {
+			font-size: 1.8rem;
+			font-weight: 500;
+			line-height: 3rem;
+			margin: 4rem 5rem;
+
+			@include respond(phone) {
+				font-size: 1.4rem;
+				line-height: 1.7;
+				margin: 2.5rem 3rem;
+			}
+		}
+
+		&__last {
+			strong {
+				font-size: 2.2rem;
+				font-weight: 800;
+				display: block;
+				margin-bottom: 1rem;
+
+				@include respond(phone) {
+					font-size: 1.7rem;
+				}
+			}
+			span {
+				margin-right: 1.5rem;
+				font-size: 2.2rem;
+				font-weight: 800;
+
+				@include respond(phone) {
+					font-size: 1.7rem;
+				}
+			}
+
+			.refer-btn {
+				font-size: 1.8rem;
+				color: $color-primary;
+				border-bottom: 1px solid $color-primary;
+				padding-bottom: 6px;
+
+				&:hover {
+					text-decoration: none;
+				}
+
+				span {
+					width: auto;
+
+					img {
+						width: auto;
+						height: 20px;
+					}
+				}
+			}
+		}
+	}
+}
+
+// Books sec
+
+.books {
+	width: 100%;
+	position: relative;
+
+	.heading-box {
+		width: 100%;
+		align-items: flex-start;
+	}
+
+	&-box {
+		border-radius: 1.8rem;
+		overflow: hidden;
+		transition: all 0.3s;
+
+		@include respond(tab-port) {
+			width: 72%;
+		}
+
+		@include respond(phone) {
+			width: 78%;
+		}
+
+		&:hover {
+			transform: scale(1.03);
+		}
+	}
+
+	.owl-theme .owl-nav {
+		position: absolute;
+		top: -12rem;
+		right: 0;
+
+		@include respond(phone) {
+			display: none;
+		}
+
+		.owl-next,
+		.owl-prev {
+			width: 5.2rem;
+			height: 5.2rem;
+			background-color: $color-white;
+			box-shadow: 0 8px 16px rgba($color: #000000, $alpha: 0.1);
+			border-radius: 50%;
+			font-size: 1.6rem;
+			color: $color-para !important;
+			transition: all 0.3s;
+
+			&:hover {
+				background-color: $color-white;
+				color: $color-primary !important;
+				box-shadow: 0 8px 28px rgba($color: #000000, $alpha: 0.2);
+			}
+		}
+	}
+
+	.owl-theme .owl-dots {
+		.owl-dot {
+			span {
+				margin: 3.5rem 7px 5px;
+				background: $color-primary__light;
+			}
+		}
+	}
+
+	.owl-theme .owl-dots .owl-dot.active span,
+	.owl-theme .owl-dots .owl-dot:hover span {
+		background: $color-primary;
+	}
+}
+
+// exercise starts
+
+.exercise {
+	&-carousel {
+	}
+
+	&-box {
+		padding: 2.4rem;
+		background-color: $color-white;
+		box-shadow: 0 10px 20px rgba($color: #000000, $alpha: 0.1);
+		border-radius: 1.4rem;
+		margin-bottom: 3rem;
+	}
+
+	&-tag {
+		width: fit-content;
+		padding: 8px 14px;
+		font-size: 1.4rem;
+		font-weight: 500;
+		border-radius: 8px;
+
+		&__1 {
+			color: #eb24bf;
+			background-color: #ffedfb;
+		}
+
+		&__2 {
+			color: #4dbe68;
+			background-color: #e8feed;
+		}
+
+		&__3 {
+			color: #e09038;
+			background-color: #fdf4e8;
+		}
+
+		&__4 {
+			color: #36a5c3;
+			background-color: #e8faff;
+		}
+
+		&__5 {
+			color: #4c83d2;
+			background-color: #e3eefe;
+		}
+
+		&__6 {
+			color: #6f3ed8;
+			background-color: #e8defe;
+		}
+
+		&__7 {
+			color: #f25454;
+			background-color: #fbe4e3;
+		}
+
+		&__8 {
+			color: #60c6b0;
+			background-color: #f0fefb;
+		}
+	}
+
+	&-heading {
+		font-size: 2rem;
+		color: $color-dark;
+		margin-top: 2rem;
+	}
+
+	&-des {
+		font-size: 1.3rem;
+		font-weight: 500;
+		margin-top: 1.4rem;
+	}
+
+	.owl-theme .owl-dots {
+		.owl-dot {
+			span {
+				margin: 0 7px 5px;
+				background: $color-primary__light;
+			}
+		}
+	}
+
+	.owl-theme .owl-dots .owl-dot.active span,
+	.owl-theme .owl-dots .owl-dot:hover span {
+		background: $color-primary;
+	}
+}
+
+// Footer part
+
+footer {
+	padding-bottom: 6rem;
+
+	.footer-text {
+		font-size: 1.8rem;
+
+		&__btn {
+			text-decoration: none;
+			color: $color-dark;
+
+			&:hover {
+				text-decoration: none;
+				color: $color-dark;
+			}
+
+			span {
+				margin: 0 6px 0 0;
+
+				img {
+					width: auto;
+					height: 2.6rem;
+					margin-top: -5px;
+
+					@include respond(phone) {
+						height: 2.4rem;
+					}
+				}
+			}
+		}
+	}
+}
